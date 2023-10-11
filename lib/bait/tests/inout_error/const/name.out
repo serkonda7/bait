@@ -1,0 +1,3 @@
+lib/bait/tests/inout_error/const/name.in.bt:2:5 warning: const names cannot contain lowercase letters
+lib/bait/tests/inout_error/const/name.in.bt:3:5 warning: const names cannot contain lowercase letters
+lib/bait/tests/inout_error/const/name.in.bt:4:5 warning: const names cannot contain lowercase letters

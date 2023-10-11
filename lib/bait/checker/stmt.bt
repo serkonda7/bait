@@ -61,6 +61,10 @@ fun (mut c Checker) const_decl(mut node ast.ConstDecl) {
 		return
 	}
 
+	if not node.name.is_upper() {
+		c.warn('const names cannot contain lowercase letters', node.pos)
+	}
+
 	node.typ = c.expr(node.expr)
 	c.table.global_scope.update_type(node.name, node.typ)
 }
