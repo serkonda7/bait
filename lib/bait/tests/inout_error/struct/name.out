@@ -1,0 +1,1 @@
+lib/bait/tests/inout_error/struct/name.in.bt:2:6 error: struct name `bad` must start with a capital letter
