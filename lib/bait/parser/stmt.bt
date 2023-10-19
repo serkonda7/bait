@@ -168,9 +168,6 @@ fun (mut p Parser) const_decl()ast.ConstDecl{
 
 	// normal name and bait package
 	name += p.check_name()
-	if lang == .bait {
-		name = p.prepend_pkg(name)
-	}
 
 	p.check(.decl_assign)
 	mut expr := ast.EmptyExpr{} as ast.Expr
@@ -182,7 +179,11 @@ fun (mut p Parser) const_decl()ast.ConstDecl{
 		typ = p.parse_type()
 	}
 
-	p.table.global_scope.register(lang.prepend_to(name), ast.ScopeObject{
+	mut tname := name
+	if lang == .bait {
+		tname = p.prepend_pkg(name)
+	}
+	p.table.global_scope.register(lang.prepend_to(tname), ast.ScopeObject{
 		typ = typ
 		kind = .constant
 		is_pub = is_pub
@@ -191,6 +192,7 @@ fun (mut p Parser) const_decl()ast.ConstDecl{
 	})
 
 	return ast.ConstDecl{
+		pkg_prefix = p.prepend_pkg('')
 		name = name
 		expr = expr
 		typ = typ

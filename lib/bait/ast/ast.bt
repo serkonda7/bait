@@ -29,6 +29,7 @@ pub:
 pub struct ConstDecl{
 pub:
 	name string
+	pkg_prefix string
 	expr Expr
 	pos token.Pos
 	lang Language
