@@ -1,0 +1,37 @@
+// SPDX-FileCopyrightText: 2024-present Lukas Neubert <lukas.neubert@proton.me>
+// SPDX-License-Identifier: MPL-2.0
+package toml
+
+struct Lexer {
+	text string
+mut:
+	pos i32
+	val string
+}
+
+fun (mut l Lexer) next() Token {
+	c := l.text[l.pos]
+	l.pos += 1
+
+	match c {
+		`#` {
+			l.skip_line()
+			return .comment
+		}
+		else {}
+	}
+
+	return l.unknown_char(c)
+}
+
+fun (mut l Lexer) skip_line() {
+	for l.pos < l.text.length and l.text[l.pos] != `\n` {
+		l.pos += 1
+	}
+	l.pos += 1
+}
+
+fun (mut l Lexer) unknown_char(c u8) Token {
+	l.val = 'unknown char ${c.ascii()}'
+	return .unknown
+}

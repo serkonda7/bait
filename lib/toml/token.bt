@@ -1,0 +1,22 @@
+// SPDX-FileCopyrightText: 2024-present Lukas Neubert <lukas.neubert@proton.me>
+// SPDX-License-Identifier: MPL-2.0
+package toml
+
+enum Token {
+	unknown
+	eof
+	comment
+	bare
+	string
+	bool
+	number
+	assign
+	comma
+	dot
+	colon
+	minus
+	lsqr
+	rsqr
+	lcur
+	rcur
+}

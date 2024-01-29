@@ -1,0 +1,12 @@
+// SPDX-FileCopyrightText: 2024-present Lukas Neubert <lukas.neubert@proton.me>
+// SPDX-License-Identifier: MPL-2.0
+package toml
+
+pub fun parse_text(text string) !Doc {
+	mut p := Parser{
+		lexer = Lexer{
+			text = text
+		}
+	}
+	return p.parse()!
+}
