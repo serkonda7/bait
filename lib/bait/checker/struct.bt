@@ -25,8 +25,7 @@ fun (mut c Checker) struct_decl(node ast.StructDecl) {
 
 		c.check_struct_field_attrs(node)
 
-		sym := c.table.get_sym(field.typ)
-		if not c.does_type_exist(sym, field.pos) {
+		if not c.does_type_exist(field.typ, field.pos) {
 			continue
 		}
 

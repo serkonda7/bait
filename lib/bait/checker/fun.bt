@@ -72,11 +72,11 @@ fun (c Checker) fun_params(params []ast.Param){
 			continue
 		}
 
-		sym := c.table.get_sym(p.typ)
-		if not c.does_type_exist(sym, p.pos) {
+		if not c.does_type_exist(p.typ, p.pos) {
 			continue
 		}
 
+		sym := c.table.get_sym(p.typ)
 		if sym.kind == .fun_ {
 			c.scope.register(p.name, ast.ScopeObject{
 				typ = p.typ

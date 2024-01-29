@@ -101,8 +101,7 @@ fun (mut c Checker) as_cast(mut node ast.AsCast) ast.Type {
 	expr_sym := c.table.get_sym(expr_type)
 
 	// Check the target exists
-	target_sym := c.table.get_sym(node.target)
-	if not c.does_type_exist(target_sym, node.pos) {
+	if not c.does_type_exist(node.target, node.pos) {
 		return expr_type
 	}
 
