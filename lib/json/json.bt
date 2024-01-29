@@ -1,0 +1,7 @@
+// SPDX-FileCopyrightText: 2024-present Lukas Neubert <lukas.neubert@proton.me>
+// SPDX-License-Identifier: MPL-2.0
+package json
+
+pub fun decode_any(src string) Any {
+	return false
+}

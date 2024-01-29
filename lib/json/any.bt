@@ -1,0 +1,15 @@
+// SPDX-FileCopyrightText: 2024-present Lukas Neubert <lukas.neubert@proton.me>
+// SPDX-License-Identifier: MPL-2.0
+package json
+
+type Any := []Any | map[string]Any | bool | string | i32
+
+pub fun (a Any) as_map() map[string]Any {
+	if a is map[string]Any {
+		return a
+	}
+
+	return map{
+		'0': a
+	}
+}

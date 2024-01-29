@@ -1,0 +1,9 @@
+// SPDX-FileCopyrightText: 2024-present Lukas Neubert <lukas.neubert@proton.me>
+// SPDX-License-Identifier: MPL-2.0
+import json
+
+fun test_decode_any() {
+	j := '{ "actors": [{"name": "John", "films": 30, "image": null, "alive": true}]}'
+	actors := json.decode_any(j).as_map()
+	assert r.length == 1
+}

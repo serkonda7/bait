@@ -1,0 +1,126 @@
+// SPDX-FileCopyrightText: 2024-present Lukas Neubert <lukas.neubert@proton.me>
+// SPDX-License-Identifier: MPL-2.0
+package json
+
+enum Token {
+	error
+	eof
+	string
+	number
+	lsqr
+	rsqr
+	lcur
+	rcur
+	colon
+	comma
+	key_false
+	key_null
+	key_true
+}
+
+struct Scanner {
+	text string
+mut:
+	pos i32
+	val string
+}
+
+fun (mut s Scanner) next() Token {
+	if s.pos == s.text.length {
+		return .eof
+	}
+
+	c := s.advance()
+
+	if c.is_digit() or c == `-` {
+		return s.number_val()
+	}
+
+	return match c {
+		`"` { s.string_val() }
+		`f` { s.name('alse', .key_false) }
+		`n` { s.name('ull', .key_null) }
+		`t` { s.name('rue', .key_true) }
+		`[` { .lsqr }
+		`]` { .rsqr }
+		`{` { .lcur }
+		`}` { .rcur }
+		`:` { .colon }
+		`,` { .comma }
+		else { s.unexpected_char(c) }
+	}
+}
+
+fun (mut s Scanner) name(expect string, tok Token) Token {
+	if s.pos + expect.length < s.text.length {
+		val := s.text.substr(s.pos, s.pos + expect.length)
+		if val == expect {
+			s.pos += expect.length
+			return tok
+		}
+	}
+
+	return s.unexpected_char(s.advance())
+}
+
+fun (mut s Scanner) number_val() Token {
+	start := s.pos - 1
+	mut is_float := false
+	mut c := s.advance()
+
+	if s.text[start] == `-` and not c.is_digit() {
+		return s.unexpected_char(c)
+	}
+
+	if c == `0` {
+		s.val = 'leading zeros are not allowed'
+		return .error
+	}
+
+	for s.pos < s.text.length {
+		if not c.is_digit() {
+			if not is_float and c == `.` {
+				is_float = true
+			} else {
+				break
+			}
+		}
+
+		c = s.advance()
+	}
+
+	// TODO error on 123.
+
+	// TODO exponent
+
+	s.val = s.text.substr(start, s.pos)
+	return .number
+}
+
+fun (mut s Scanner) string_val() Token {
+	start := s.pos
+
+	for s.pos < s.text.length {
+		c := s.advance()
+		if c == `"` {
+			s.val = s.text.substr(start, s.pos - 1)
+			return .string
+		} else if c == `\\` {
+			s.pos += 1
+		}
+	}
+
+	s.val = 'unclosed string'
+	return .error
+}
+
+fun (mut s Scanner) unexpected_char(c u8) Token {
+	s.val = 'unexpected char ${c.ascii()}'
+	return .error
+}
+
+fun (mut s Scanner) advance() u8 {
+	c := s.text[s.pos]
+	s.pos += 1
+	return c
+}
