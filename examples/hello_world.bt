@@ -1,3 +1,11 @@
+type Sum:=i32|i64
+
+fun foo()!Sum{
+	return 1 as Sum
+}
+
 fun main() {
-	println('hello world')
+	mut f:=foo()!
+	f=2
+	println(f)
 }
