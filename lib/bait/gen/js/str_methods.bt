@@ -100,9 +100,8 @@ fun (mut g Gen) generate_str_fun(typ ast.Type) {
 		info := sym.info as ast.SumTypeInfo
 		g.fun_decls_out += 'function ${name}(it, indent) {\n'
 		for var in info.variants {
-			var_sym := g.table.get_sym(var)
-			g.fun_decls_out += '\tif (it instanceof ${js_name(var_sym.name)}) {
-		return ${g.get_str_fun(var)}(it, indent)
+			g.fun_decls_out += '\tif (it.typ == ${var}) {
+		return ${g.get_str_fun(var)}(it.val, indent)
 	}
 '
 		}

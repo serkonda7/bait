@@ -402,9 +402,10 @@ global:
 }
 
 pub struct StructInitField{
+global:
+	expr Expr
 pub:
 	name string
-	expr Expr
 	pos token.Pos
 }
 

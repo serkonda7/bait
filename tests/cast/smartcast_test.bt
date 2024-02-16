@@ -11,20 +11,27 @@ fun get_sum_foo() Sum {
 }
 
 fun test_smartcast_scope() {
-	mut c := 0
 	f := get_sum_foo()
 
 	if f is Bar {
 		assert false
 	} else {
-		c += 1
 		assert typeof(f) == 'Sum'
 	}
 
 	if f is Foo {
-		c += 1
 		assert typeof(f) == 'Foo'
+	} else {
+		assert false
 	}
+}
 
-	assert c == 2
+type NumBit8 := i8 | u8
+
+fun test_sumtype_builtins() {
+	n := (1 as i8) as NumBit8
+
+	if not (n is i8) {
+		assert false
+	}
 }

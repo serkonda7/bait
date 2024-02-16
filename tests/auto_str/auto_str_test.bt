@@ -55,12 +55,8 @@ fun test_alias() {
 
 type Sum := Foo | Bar
 
-fun bar_sum() Sum {
-	return Bar{}
-}
-
 fun test_sumtype() {
-	b := bar_sum()
+	b := Bar{} as Sum
 	assert b.str() == 'Bar{
   f = 0
 }'
