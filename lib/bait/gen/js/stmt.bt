@@ -310,12 +310,31 @@ fun (mut g Gen) return_stmt(node ast.ReturnStmt){
 }
 
 fun (mut g Gen) type_decl(node ast.TypeDecl){
-	sym := g.table.get_sym(node.typ)
-	if sym.kind != .alias_type {
+	if node.lang != .bait {
 		return
 	}
 
+	sym := g.table.get_sym(node.typ)
+	match sym.kind {
+		.alias_type { g.alias_type(node) }
+		.sum_type { g.sum_type(node) }
+		else {}
+	}
+}
+
+fun (mut g Gen) alias_type(node ast.TypeDecl){
 	g.write('function ')
 	g.write(js_name(node.name))
 	g.writeln('(val) { return val }')
+}
+
+fun (mut g Gen) sum_type(node ast.TypeDecl){
+	g.write('class ')
+	g.write(js_name(node.name))
+	g.writeln('{')
+	g.writeln('\tconstructor(val, typ) {')
+	g.writeln('\t\tthis.val = val')
+	g.writeln('\t\tthis.typ = typ')
+	g.writeln('\t}')
+	g.writeln('}')
 }

@@ -287,6 +287,7 @@ pub:
 pub struct Ident{
 global:
 	name string
+	obj ScopeObject
 	is_mut bool
 pub:
 	pkg string

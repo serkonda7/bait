@@ -75,6 +75,7 @@ pub mut:
 	overloads map[string]FunDecl
 	is_pub bool
 	pkg string
+	lang Language
 global:
 	info TypeInfo := EmptyInfo{}
 }

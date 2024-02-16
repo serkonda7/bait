@@ -163,7 +163,6 @@ pub fun (kind Token) js_repr() string {
 	return match kind {
 		.key_break { "break" }
 		.key_continue { "continue" }
-		.key_is { "instanceof" }
 		.mul { "*" }
 		.div { "/" }
 		.mod { "%" }

@@ -83,8 +83,14 @@ fun (mut g Gen) array_init(node ast.ArrayInit) {
 
 fun (mut g Gen) as_cast(node ast.AsCast) {
 	target_sym := g.table.get_sym(node.target)
-	if target_sym.kind == .alias_type {
+	if target_sym.kind == .sum_type and target_sym.lang == .bait {
+		g.write('new ')
+		g.write(js_name(target_sym.name))
+		g.write('(')
 		g.expr(node.expr)
+		g.write(', ')
+		g.write(node.expr_type.str())
+		g.write(')')
 		return
 	}
 
@@ -124,6 +130,10 @@ fun (mut g Gen) ident(node ast.Ident) {
 	}
 
 	g.write(js_name(node.name))
+
+	if node.obj.kind == .sumtype_inst {
+		g.write('.val')
+	}
 }
 
 fun (mut g Gen) integer_literal(node ast.IntegerLiteral){
@@ -200,6 +210,13 @@ fun (mut g Gen) infix_expr(node ast.InfixExpr){
 		g.write(', ')
 		g.expr(node.right)
 		g.write(')')
+		return
+	}
+
+	// x is Type
+	if node.op == .key_is {
+		g.expr(node.left)
+		g.write('.typ == ${node.right_type}')
 		return
 	}
 

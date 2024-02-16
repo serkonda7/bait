@@ -27,6 +27,7 @@ pub enum ObjectKind {
 	global_
 	package_
 	label
+	sumtype_inst
 }
 
 pub fun (s Scope) register(name string, obj ScopeObject) {
@@ -46,6 +47,11 @@ pub fun (s Scope) get(name string) ScopeObject {
 	return ScopeObject{
 		kind = .unknown
 	}
+}
+
+pub fun (s Scope) set_instance(name string, typ Type) {
+	s.objects[name].kind = .sumtype_inst
+	s.objects[name].typ = typ
 }
 
 pub fun (s Scope) update_type(name string, typ Type) {

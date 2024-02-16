@@ -54,7 +54,7 @@ fun (c Checker) is_sumtype_variant_infix(mut node ast.InfixExpr) ast.Type {
 		}
 		node.right_type = c.table.get_idx(right.name)
 		left := node.left as ast.Ident
-		c.scope.update_type(left.name, node.right_type)
+		c.scope.set_instance(left.name, node.right_type)
 		return ast.BOOL_TYPE
 	}
 

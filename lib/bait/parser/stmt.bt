@@ -478,6 +478,7 @@ fun (mut p Parser) type_decl() !ast.TypeDecl {
 			parent = variants[0]
 			is_pub = is_pub
 			pkg = p.pkg_name
+			lang = lang
 		})
 		return ast.TypeDecl{
 			lang = lang
@@ -497,6 +498,7 @@ fun (mut p Parser) type_decl() !ast.TypeDecl {
 		name = name
 		is_pub = is_pub
 		pkg = p.pkg_name
+		lang = lang
 		info = ast.SumTypeInfo{
 			variants = variants
 		}
