@@ -1,10 +1,15 @@
 // SPDX-FileCopyrightText: 2023-present Lukas Neubert <lukas.neubert@proton.me>
 // SPDX-License-Identifier: MPL-2.0
 
-type Sum := Foo | Bar
 
 struct Foo{}
 struct Bar{}
+
+type Sum := Foo | Bar
+
+struct Main {
+	s Sum
+}
 
 fun get_sum_foo() Sum {
 	return Foo{}
@@ -49,4 +54,17 @@ fun get_sum() !Sum {
 fun test_result() ! {
 	s := get_sum()!
 	assert s is Foo
+}
+
+
+fun test_struct_field() {
+	m := Main{
+		s = Foo{} // smartcast
+	}
+	assert m.s is Foo
+
+	m2 := Main{
+		s = Foo{} as Sum // explicit cast
+	}
+	assert m2.s is Foo
 }

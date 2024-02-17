@@ -70,12 +70,12 @@ fun (mut c Checker) struct_init(mut node ast.StructInit) ast.Type {
 		}
 		if not c.check_types(expr_type, def.typ) {
 			c.error('cannot assign to field ${field.name}: expected ${c.table.type_name(def.typ)}, got ${c.table.type_name(expr_type)} ', node.pos)
-		} else if expr_type != c.cur_fun.return_type {
+		} else if expr_type != c.expected_type {
 			// Cast to expected type if they are compatible (e.g. sumtypes)
 			field.expr = ast.AsCast{
 				expr_type = expr_type
 				expr = field.expr
-				target = def.typ
+				target = c.expected_type
 			}
 		}
 	}
