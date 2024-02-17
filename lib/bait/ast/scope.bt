@@ -54,8 +54,15 @@ pub fun (s Scope) set_instance(name string, typ Type) {
 		return
 	}
 
-	s.objects[name].kind = .sumtype_inst
-	s.objects[name].typ = typ
+	// FIXME see below
+	obj := s.parent.get(name)
+	s.objects[name] = ScopeObject{
+		typ = typ
+		kind = .sumtype_inst
+		is_pub = obj.is_pub
+		is_mut = obj.is_mut
+		pkg = obj.pkg
+	}
 }
 
 pub fun (s Scope) update_type(name string, typ Type) {
