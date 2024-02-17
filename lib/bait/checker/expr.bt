@@ -104,11 +104,14 @@ fun (mut c Checker) as_cast(mut node ast.AsCast) ast.Type {
 		return expr_type
 	}
 
-	// Smartcast sumtypes
+	// Cast of sumtype to variant
 	// TODO check if expr is part of target
-	if expr_sym.kind == .sum_type and node.expr is ast.Ident {
-		expr := node.expr as ast.Ident
-		c.scope.update_type(expr.name, node.target)
+	if expr_sym.kind == .sum_type {
+		node.expr = ast.SelectorExpr {
+			expr = node.expr
+			field_name = 'val'
+			pos = node.pos
+		}
 	}
 
 	return node.target

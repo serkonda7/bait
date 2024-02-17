@@ -2,7 +2,9 @@
 // SPDX-License-Identifier: MPL-2.0
 
 
-struct Foo{}
+struct Foo{
+	i i32
+}
 struct Bar{}
 
 type Sum := Foo | Bar
@@ -47,6 +49,18 @@ fun test_sumtype_builtins() {
 	}
 }
 
+fun test_cast_to_variant() {
+	s := get_sum_foo()
+	f := s as Foo
+	assert f.i == 0
+
+	m := Main{
+		s = get_sum_foo()
+	}
+	mf := m.s as Foo
+	assert mf.i == 0
+}
+
 fun get_sum() !Sum {
 	return Foo{}
 }
@@ -55,7 +69,6 @@ fun test_result() ! {
 	s := get_sum()!
 	assert s is Foo
 }
-
 
 fun test_struct_field() {
 	m := Main{

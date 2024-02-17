@@ -200,8 +200,8 @@ pub:
 pub struct AsCast{
 global:
 	expr_type Type
-pub:
 	expr Expr
+pub:
 	target Type
 	pos token.Pos
 }
