@@ -50,6 +50,10 @@ pub fun (s Scope) get(name string) ScopeObject {
 }
 
 pub fun (s Scope) set_instance(name string, typ Type) {
+	if s.objects.contains(name) {
+		return
+	}
+
 	s.objects[name].kind = .sumtype_inst
 	s.objects[name].typ = typ
 }

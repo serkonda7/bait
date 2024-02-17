@@ -26,6 +26,12 @@ fun test_smartcast_scope() {
 	}
 }
 
+fun test_infix_scope() {
+	f := get_sum_foo()
+
+	assert f is Foo
+}
+
 type NumBit8 := i8 | u8
 
 fun test_sumtype_builtins() {
@@ -34,4 +40,13 @@ fun test_sumtype_builtins() {
 	if not (n is i8) {
 		assert false
 	}
+}
+
+fun get_sum() !Sum {
+	return Foo{}
+}
+
+fun test_result() ! {
+	s := get_sum()!
+	assert s is Foo
 }

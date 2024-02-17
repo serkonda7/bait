@@ -19,12 +19,12 @@ fun (mut c Checker) return_stmt(mut node ast.ReturnStmt) {
 			msg += ', got ${c.table.type_name(expr_type)}'
 		}
 		c.error(msg, node.pos)
-	} else if expr_type != c.cur_fun.return_type {
+	} else if expr_type != c.expected_type {
 		// Cast to expected type if they are compatible (e.g. sumtypes)
 		node.expr = ast.AsCast{
 			expr_type = expr_type
 			expr = node.expr
-			target = c.cur_fun.return_type
+			target = c.expected_type
 		}
 	}
 
