@@ -91,6 +91,15 @@ fun (mut c Checker) if_match(mut node ast.IfMatch) ast.Type {
 				node.typ = typ
 			} else if not c.check_types(typ, node.typ) {
 				c.error('branch returns ${c.table.type_name(typ)}, expected ${c.table.type_name(node.typ)}', branch.pos)
+			} else if typ != node.typ {
+				last_expr := if last is ast.ExprStmt { last.expr } else { (last as ast.Expr) }
+				branch.stmts[branch.stmts.length - 1] = ast.ExprStmt{
+					expr = ast.AsCast{
+						expr_type = typ
+						expr = last_expr
+						target = node.typ
+					}
+				}
 			}
 		} else if has_toplevel_return(branch.stmts) {
 			nr_branches_return += 1

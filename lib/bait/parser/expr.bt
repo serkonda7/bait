@@ -287,6 +287,7 @@ fun (mut p Parser) index_expr(left ast.Expr) !ast.IndexExpr {
 	index := p.expr(.lowest)!
 	p.check(.rsqr)!
 	p.skip(.semicolon)
+
 	return ast.IndexExpr{
 		left = left
 		index = index

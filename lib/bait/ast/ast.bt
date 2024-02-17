@@ -19,10 +19,10 @@ pub struct AssignStmt{
 global:
 	left_type Type
 	right_type Type
+	right Expr
 pub:
 	op token.Token
 	left Expr
-	right Expr
 	pos token.Pos
 }
 

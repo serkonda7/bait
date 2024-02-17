@@ -93,6 +93,12 @@ fun (mut c Checker) assign_stmt(mut node ast.AssignStmt) {
 
 	if not c.check_types(node.right_type, node.left_type) {
 		c.error('cannot assign type ${c.table.type_name(node.right_type)} to ${c.table.type_name(node.left_type)}', node.pos)
+	} else if node.right_type != c.expected_type {
+		node.right = ast.AsCast{
+			expr_type = node.right_type
+			expr = node.right
+			target = c.expected_type
+		}
 	}
 }
 

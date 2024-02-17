@@ -81,3 +81,16 @@ fun test_struct_field() {
 	}
 	assert m2.s is Foo
 }
+
+fun get_if_sum() Sum {
+	return if 1 < 3 {
+		Foo{}
+	} else {
+		Bar{}
+	}
+}
+
+fun test_if_expr() {
+	s := get_if_sum()
+	assert s is Foo
+}
