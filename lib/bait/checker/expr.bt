@@ -272,6 +272,10 @@ fun (mut c Checker) prefix_expr(node ast.PrefixExpr) ast.Type {
 		return typ.set_nr_amp(typ.get_nr_amp() - 1)
 	}
 
+	if node.op == .amp {
+		return typ.set_nr_amp(typ.get_nr_amp() + 1)
+	}
+
 	return typ
 }
 
