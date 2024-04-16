@@ -8,6 +8,8 @@ import bait.errors
 
 const LB := if os.platform() == 'win32' { '\\r\\n' } else { '\\n' }
 
+// TODO handle pointer types (JS as well)
+
 fun (mut g Gen) get_str_fun(typ ast.Type) string {
 	g.table.needed_str_funs.push(typ)
 	sym := g.table.get_sym(typ)
@@ -32,7 +34,7 @@ fun (mut g Gen) generate_str_fun(typ ast.Type) {
 	if sym.kind == .struct_ {
 		info := sym.info as ast.StructInfo
 
-		g.fun_decls_out += 'string ${fname}(${sname} it);'
+		g.fun_decls_out += 'string ${fname}(${sname} it);\n'
 
 		g.auto_funs_out += 'string ${fname}(${sname} it) {
 	int indent = 0;

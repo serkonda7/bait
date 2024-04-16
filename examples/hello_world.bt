@@ -1,3 +1,14 @@
+struct Foo {
+mut: x i32
+}
+
 fun main() {
-	println('hello world')
+	// a := Foo{}
+	// mut b := &a
+
+	mut a := Foo{}
+	b := &a
+	a.x = 3
+	println(a)
+	println(b)
 }
