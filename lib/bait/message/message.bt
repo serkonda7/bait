@@ -1,0 +1,32 @@
+// SPDX-FileCopyrightText: 2023-present Lukas Neubert <lukas.neubert@proton.me>
+// SPDX-License-Identifier: MPL-2.0
+package message
+
+import bait.token
+
+// Message kind
+pub enum Kind {
+	info
+	warning
+	error
+}
+
+// Source that reported the message
+pub enum Reporter {
+	general
+	builder
+	lexer
+	parser
+	checker
+	gen
+}
+
+pub struct Message{
+	pub kind Kind
+
+	pub title string
+	pub details string
+
+	pub path string
+	pub pos token.Pos
+}
