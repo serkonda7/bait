@@ -134,7 +134,7 @@ fun (c Checker) info(msg string, pos token.Pos){
 		path = c.path
 		pos = pos
 		title = 'info'
-		msg = msg
+		details = msg
 	})
 }
 
@@ -144,7 +144,7 @@ fun (c Checker) warn(msg string, pos token.Pos){
 		path = c.path
 		pos = pos
 		title = 'warning'
-		msg = msg
+		details = msg
 	})
 }
 
@@ -154,13 +154,13 @@ fun (c Checker) error(msg string, pos token.Pos){
 		path = c.path
 		pos = pos
 		title = 'error'
-		msg = msg
+		details = msg
 	})
 }
 
 fun (c Checker) generic_error(msg string){
 	c.errors.push(errors.Message{
 		kind = .error
-		msg = msg
+		details = msg
 	})
 }

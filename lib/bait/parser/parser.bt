@@ -250,7 +250,7 @@ fun (mut p Parser) info(msg string) {
 		path = p.path
 		pos = p.pos
 		title = 'info'
-		msg = msg
+		details = msg
 	})
 }
 
@@ -260,7 +260,7 @@ fun (mut p Parser) warn(msg string) {
 		path = p.path
 		pos = p.pos
 		title = 'warning'
-		msg = msg
+		details = msg
 	})
 }
 
@@ -270,7 +270,7 @@ fun (mut p Parser) error(msg string) ! {
 		path = p.path
 		pos = p.pos
 		title = 'error'
-		msg = msg
+		details = msg
 	}
 	return error('')
 }

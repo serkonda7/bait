@@ -8,5 +8,5 @@ pub struct Pos{
 }
 
 pub fun (p Pos) str() string {
-	return '{ line = ${p.line}, col = ${p.col} }'
+	return '${p.line}:${p.col}'
 }

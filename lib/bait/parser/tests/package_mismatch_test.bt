@@ -15,7 +15,7 @@ struct Content {}'
 	file := p.parse()
 	assert file.path.length == 0
 	assert file.infos.length == 1
-	assert file.infos[0].msg.contains('package mismatch')
+	assert file.infos[0].details.contains('package mismatch')
 	assert file.stmts.length == 0 // Test parser exits after mismatch
 }
 

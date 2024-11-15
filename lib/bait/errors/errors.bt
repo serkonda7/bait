@@ -6,30 +6,43 @@ import os
 import bait.token
 import term.color
 
+// Message kind
 pub enum Kind {
 	info
 	warning
 	error
 }
 
+// Source that reported the message
+pub enum Reporter {
+	general
+	builder
+	lexer
+	parser
+	checker
+	gen
+}
+
 pub struct Message{
 	pub kind Kind
+
+	pub title string
+	pub details string
+
 	pub path string
 	pub pos token.Pos
-	pub title string
-	pub msg string
 	global infos []Message
 }
 
 pub fun (msg Message) print() {
 	if msg.path.length == 0 {
-		generic_error(msg.msg)
+		generic_error(msg.details)
 		for info in msg.infos {
 			info.print()
 		}
 		return
 	}
-	message(msg.kind, msg.title, msg.path, msg.pos, msg.msg)
+	message(msg.kind, msg.title, msg.path, msg.pos, msg.details)
 	for info in msg.infos {
 		info.print()
 	}
