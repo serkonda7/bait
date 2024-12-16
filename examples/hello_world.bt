@@ -1,3 +1,7 @@
+static QWE := "hi"
+const QWE := 123
+const QWE := true
+
 fun main() {
 	println('hello world')
 }

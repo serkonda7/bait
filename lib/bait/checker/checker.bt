@@ -65,6 +65,11 @@ pub fun (mut c Checker) check_files(files []ast.File) {
 		resolve_runs += 1
 	}
 
+	for scope in c.sema_ctx.scopes {
+		println(scope.redefined_syms)
+	}
+
+	// TODO REDEF integrate into scope redef system
 	c.check_fun_redefinitions(files)
 	c.check_type_redefinitions(files)
 
