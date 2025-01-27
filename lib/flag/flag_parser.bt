@@ -1,0 +1,17 @@
+// SPDX-FileCopyrightText: 2023-present Lukas Neubert <lukas.neubert@proton.me>
+// SPDX-License-Identifier: MIT
+package flag
+
+pub fun parser_from_args(args []string) &FlagParser {
+	return &FlagParser{}
+}
+
+pub struct FlagParser {
+	flags []string
+}
+
+// Return remaining arguments after defining all flags.
+// Will return an error if additional flags are found.
+pub fun (mut fp FlagParser) remaining_args() ![]string {
+	return []
+}

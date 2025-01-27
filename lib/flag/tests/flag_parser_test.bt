@@ -1,0 +1,11 @@
+// SPDX-FileCopyrightText: 2023-present Lukas Neubert <lukas.neubert@proton.me>
+// SPDX-License-Identifier: MIT
+import flag
+
+fun test_flag_parser() {
+	mut fp := flag.parser_from_args([]string)
+	remaining := fp.remaining_args() or {
+		assert err == ""
+		[]
+	}
+}
