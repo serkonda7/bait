@@ -1,0 +1,17 @@
+// SPDX-FileCopyrightText: Lukas Neubert <lukas.neubert@proton.me>
+// SPDX-License-Identifier: MIT
+
+import ini
+import os
+
+fun test_ini_parser() {
+	input := os.read_file("${$DIR}/data/sample.ini")
+	res := ini.parse_text(input) or {
+		eprintln(err)
+		assert false
+		ini.Ini{}
+	}
+
+	eprintln(res)
+	assert true
+}

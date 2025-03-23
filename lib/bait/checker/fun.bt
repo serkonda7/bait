@@ -454,7 +454,7 @@ fun (mut c Checker) or_block(mut node ast.CallExpr) {
 			return
 		}
 
-		msg := "`or` bock must:
+		msg := "`or` block must:
   - Provide a default value of type `${c.table.type_name(ret_sym.parent)}`, OR
   - Change the control-flow (return/continue/break), OR
   - Call a @noreturn function"

@@ -1,0 +1,46 @@
+// SPDX-FileCopyrightText: Lukas Neubert <lukas.neubert@proton.me>
+// SPDX-License-Identifier: MIT
+package ini
+
+pub struct ParseOptions{
+}
+
+struct Parser {
+	mut lexer Lexer
+	mut cur_sec string
+	mut cur_key string
+	mut comment string
+}
+
+fun new_parser(text string, opts ParseOptions) Parser {
+	mut l := Lexer{
+		opts = opts
+		text = text
+	}
+	return Parser{
+		lexer = l
+	}
+}
+
+fun (mut p Parser) parse() !Ini {
+	mut tok := Token.illegal
+	mut ini_file := Ini{}
+
+	for true {
+		tok = p.lexer.next()
+		match tok {
+			.comment {
+				p.comment += p.lexer.val
+			}
+			.eof {
+				ini_file.sections[p.cur_sec].comment = p.comment
+				break
+			}
+			else {
+				return error("unexpected token: ${tok}")
+			}
+		}
+	}
+
+	return ini_file
+}

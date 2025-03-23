@@ -1,0 +1,54 @@
+// SPDX-FileCopyrightText: Lukas Neubert <lukas.neubert@proton.me>
+// SPDX-License-Identifier: MIT
+package ini
+
+enum Token {
+	illegal
+	eof
+	comment
+	section
+	key
+	value
+	assign
+}
+
+struct Lexer {
+	opts ParseOptions
+	text string
+	mut pos i32
+	mut val string
+}
+
+fun (mut l Lexer) next() Token {
+	l.skip_space()
+
+	if l.pos == l.text.length {
+		return .eof
+	}
+
+	match l.text[l.pos] {
+		`;` {
+			l.pos += 1
+			start := l.pos
+			l.read_until(`\n`)
+			l.val = l.text.substr(start, l.pos - 1)
+			return .comment
+		}
+		else {}
+	}
+
+	return .illegal
+}
+
+fun (mut l Lexer) read_until(c u8) {
+	for l.pos < l.text.length and l.text[l.pos] != c {
+		l.pos += 1
+	}
+	l.pos += 1
+}
+
+fun (mut l Lexer) skip_space() {
+	for l.text[l.pos] == ` ` {
+		l.pos += 1
+	}
+}

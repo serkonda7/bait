@@ -1,0 +1,28 @@
+// SPDX-FileCopyrightText: Lukas Neubert <lukas.neubert@proton.me>
+// SPDX-License-Identifier: MIT
+package ini
+
+type Any := string
+
+pub struct Ini{
+	sections map[string]Section
+}
+
+struct Section {
+	properties map[string]Property
+	mut comment string
+}
+
+struct Property{
+	val string
+	comment string
+}
+
+pub fun parse_text(text string) !Ini {
+	return parse_text_opt(text, ParseOptions{})!
+}
+
+pub fun parse_text_opt(text string, opts ParseOptions) !Ini {
+	mut p := new_parser(text, opts)
+	return p.parse()!
+}
