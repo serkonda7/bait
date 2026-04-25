@@ -17,7 +17,7 @@ fun (mut op OptParser) option_index(long string, short u8) i32 {
 
 	for i, arg in op.args {
 		is_short := arg.length == 2 and arg[0] == `-` and arg[1] == short
-		if is_short or arg == long_name {
+		if is_short or (long.length > 0 and arg == long_name) {
 			op.args.delete(i)
 			return i
 		}

@@ -46,3 +46,13 @@ fun test_quoted_string_value() {
 	assert op.string('eggs', `e`, '') == '--str'
 	assert op.string('ham', `h`, '') == '--str'
 }
+
+fun test_empty_long_does_not_delete_end_of_options_marker() {
+	args := ['--', 'foo']
+	mut op := options.new_option_parser(args)
+
+	assert op.bool('', `x`, false) == false
+	assert op.string('', `y`, '') == ''
+
+	assert op.remaining() == ['--', 'foo']
+}
