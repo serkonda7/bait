@@ -27,7 +27,7 @@ fun test_opt_parser() {
 }
 
 fun test_value_opt_does_not_eat_flag() {
-	args := ['-n', '--flag', '--bar', '-s', '--eggs', '"--str"']
+	args := ['-n', '--flag', '--bar', '-s']
 	mut op := options.new_option_parser(args)
 
 	n := op.int('num', `n`, 42)
@@ -37,6 +37,12 @@ fun test_value_opt_does_not_eat_flag() {
 	assert b == true
 
 	assert op.string('bar', `b`, '') == ''
+}
+
+fun test_quoted_string_value() {
+	args := ['--eggs', '"--str"', '--ham', "'--str'"]
+	mut op := options.new_option_parser(args)
 
 	assert op.string('eggs', `e`, '') == '--str'
+	assert op.string('ham', `h`, '') == '--str'
 }

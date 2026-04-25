@@ -33,11 +33,16 @@ fun (mut op OptParser) find_val(long string, short u8) !string {
 		return error('')
 	}
 
-	v := op.args[vi]
+	mut v := op.args[vi]
 
 	// If value looks like option, do not consume it
 	if v.length > 1 and v[0] == `-` {
 		return error('')
+	}
+
+	// Strip surrounding quotes
+	if v.length >= 2 and ((v[0] == `"` and v[v.length - 1] == `"`) or (v[0] == `'` and v[v.length - 1] == `'`)) {
+		v = v.substr(1, v.length - 1)
 	}
 
 	op.args.delete(vi)
