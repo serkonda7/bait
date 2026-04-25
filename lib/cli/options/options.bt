@@ -14,7 +14,6 @@ struct OptParser {
 
 fun (mut op OptParser) option_index(long string, short u8) i32 {
 	long_name := '--${long}'
-	short_name := '-${short}'
 
 	for i, arg in op.args {
 		is_short := arg.length == 2 and arg[0] == `-` and arg[1] == short
@@ -35,6 +34,12 @@ fun (mut op OptParser) find_val(long string, short u8) !string {
 	}
 
 	v := op.args[vi]
+
+	// If value looks like option, do not consume it
+	if v.length > 1 and v[0] == `-` {
+		return error('')
+	}
+
 	op.args.delete(vi)
 	return v
 }

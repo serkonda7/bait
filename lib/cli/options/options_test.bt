@@ -25,3 +25,18 @@ fun test_opt_parser() {
 
 	assert args.length == 9
 }
+
+fun test_value_opt_does_not_eat_flag() {
+	args := ['-n', '--flag', '--bar', '-s', '--eggs', '"--str"']
+	mut op := options.new_option_parser(args)
+
+	n := op.int('num', `n`, 42)
+	assert n == 42
+
+	b := op.bool('flag', `f`, false)
+	assert b == true
+
+	assert op.string('bar', `b`, '') == ''
+
+	assert op.string('eggs', `e`, '') == '--str'
+}
