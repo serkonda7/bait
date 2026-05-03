@@ -90,7 +90,24 @@ fun (mut g Gen) generate_str_fun(typ ast.Type) {
 		return
 	}
 
-	// TODO map, alias, sumtype, enum, result
+	if sym.kind == .enum_ {
+		enum_type := g.typ(typ)
+		g.fun_decls_out += 'string ${fname}(${enum_type} it);\n'
+
+		g.auto_funs_out += 'string ${fname}(${enum_type} it) {
+	switch(it) {\n'
+		info := sym.info as ast.EnumInfo
+		for val in info.vals {
+			g.auto_funs_out += '\t\tcase ${c_esc(val)}: return from_c_string("${val}");
+'
+		}
+		g.auto_funs_out += '\t}
+	return from_c_string("");
+}\n\n'
+		return
+	}
+
+	// TODO map, alias, sumtype, result
 
 	errors.generic_error('cannot convert ${sym.mix_name} to string')
 	exit(1)
