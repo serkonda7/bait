@@ -1,0 +1,57 @@
+// SPDX-FileCopyrightText: Lukas Neubert
+// SPDX-License-Identifier: MIT
+
+// PCG32 pseudorandom number generator.
+//
+// Implements the PCG-XSH-RR variant with 64-bit state and 32-bit output.
+// Reference: https://www.pcg-random.org/
+package pcg32
+
+const multiplier := 6364136223846793005 as u64
+
+pub struct PCG32RNG {
+	mut state u64
+	mut inc u64
+}
+
+// Initializes the RNG with the given `init_state` and `init_seq`.
+// `init_seq` selects the output sequence (stream).
+pub fun (mut rng PCG32RNG) seed(init_state u64, init_seq u64) {
+	rng.state = 0 as u64
+	rng.inc = (init_seq << 1) | 1 as u64
+	_ = rng.next()
+	rng.state = rng.state + init_state
+	_ = rng.next()
+}
+
+// Returns a uniformly distributed random `u32`.
+pub fun (mut rng PCG32RNG) u32() u32 {
+	return rng.next()
+}
+
+// Returns a uniformly distributed random `u8`.
+pub fun (mut rng PCG32RNG) u8() u8 {
+	return (rng.next() & 0xFF) as u8
+}
+
+// Returns a uniformly distributed random `u16`.
+pub fun (mut rng PCG32RNG) u16() u16 {
+	return (rng.next() & 0xFFFF) as u16
+}
+
+// Returns a uniformly distributed random `u64`.
+pub fun (mut rng PCG32RNG) u64() u64 {
+	a := rng.next() as u64
+	b := rng.next() as u64
+	return (a << 32) | b
+}
+
+// Advances the state and returns the next 32-bit output.
+fun (mut rng PCG32RNG) next() u32 {
+	old_state := rng.state
+	rng.state = old_state * multiplier + rng.inc
+
+	xorshifted := (((old_state >> 18) ^ old_state) >> 27) as u32
+	rot := (old_state >> 59) as u32
+	return (xorshifted >> rot) | (xorshifted << ((0 as u32 - rot) & 31))
+}

@@ -1,0 +1,37 @@
+// SPDX-FileCopyrightText: Lukas Neubert
+// SPDX-License-Identifier: MIT
+
+import random.pcg32
+
+fun test_usage_example_and_determinism() {
+	mut rng := &pcg32.PCG32RNG{}
+
+	state := 42 as u64
+	seq := 54 as u64
+
+	rng.seed(state, seq)
+	a8 := rng.u8()
+	a16 := rng.u16()
+	a32 := rng.u32()
+	a64 := rng.u64()
+
+	rng.seed(state, seq)
+	assert rng.u8() == a8
+	assert rng.u16() == a16
+	assert rng.u32() == a32
+	assert rng.u64() == a64
+}
+
+fun test_u64_matches_two_u32_values() {
+	mut rng := &pcg32.PCG32RNG{}
+
+	state := 123456 as u64
+	seq := 98765 as u64
+
+	rng.seed(state, seq)
+	value64 := rng.u64()
+
+	rng.seed(state, seq)
+	expected := ((rng.u32() as u64) << 32) | (rng.u32() as u64)
+	assert value64 == expected
+}
