@@ -135,6 +135,12 @@ fun (mut g Gen) bool_literal(node ast.BoolLiteral) {
 }
 
 fun (mut g Gen) char_literal(node ast.CharLiteral) {
+	// An empty char literal is the null char; C has no `''`
+	if node.val.length == 0 {
+		g.write('0')
+		return
+	}
+
 	// C has no `\`` escape; emit a plain backtick
 	if node.val == '\\`' {
 		g.write("'`'")
