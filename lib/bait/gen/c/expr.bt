@@ -325,6 +325,16 @@ fun (mut g Gen) par_expr(node ast.ParExpr) {
 }
 
 fun (mut g Gen) prefix_expr(node ast.PrefixExpr) {
+	// `&Struct{}` must outlive the current scope, so copy the literal to the heap
+	if node.op == .amp and node.right is ast.StructInit {
+		init := node.right as ast.StructInit
+		type_str := g.typ(init.typ)
+		g.write('(${type_str}*)memcpy(malloc(sizeof(${type_str})), &')
+		g.struct_init(init)
+		g.write(', sizeof(${type_str}))')
+		return
+	}
+
 	g.write(node.op.c_repr())
 	g.expr(node.right)
 }
